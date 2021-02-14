@@ -173,7 +173,34 @@ class BST():
                 queue.append(curr.right)
 
 
-
+    def delete(self, root, data):
+        if not root:
+            return
+        elif data > root.data:
+            root.right = self.delete(root.right, data)
+        elif data < root.data:
+            root.left = self.delete(root.left, data)
+        else: # found the node that has to be deleted
+            # case 1: no child
+            if not root.left and not root.right:
+                del root
+                root = None
+            # case 2: 1 child either left or right
+            elif not root.left:
+                tmp = root
+                root = root.right
+                del tmp
+            elif not root.right:
+                tmp = root
+                root = root.left
+                del tmp
+            # case 3: 2 children
+            else:
+                min_node_data = self.find_min_recur(root.right)
+                root.data = min_node_data
+                root.right = self.delete(root.right, min_node_data)
+        
+        return root
 
         
             
